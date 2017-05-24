@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Baker_Point.Models.Order>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Your Orders</h2>
+
+<style>
+    .OrderIndeximg {
+        float:left;
+        width:40px;
+        height:40px;
+
+    }
+    .OrderIndexdes {
+        font-size:15px;
+        height:40px;
+    }
+    .Innerdiv {
+        background-color:darkorange;
+        width:600px;
+        padding:5px;
+        margin-bottom:5px;
+    }
+    .superdiv {
+        float:left;
+        background-color:lightgray;
+        padding:10px;
+        padding-bottom:0px;
+        margin-bottom:20px;
+        cursor:pointer;
+    }
+
+        .superdiv:hover {
+            border:3px solid black;
+        }
+    #Container {
+        float:left;
+    }
+</style>
+@if (User.IsInRole("Admin"))
+{ 
+    <div id="filter" style="float:left">
+        Search for specific user:
+        @using (Html.BeginForm()) { 
+            @Html.ValidationSummary(true)
+            <input type="text" name="name"/>
+            <input type="submit" value="submit"/>
+        }
+    </div> 
+}
+<div id="Container">
+@foreach (Baker_Point.Controllers.OrderController.OrderIndex item in ViewBag.index)
+{
+    <div class="superdiv" title="@item.orderid">
+        @for (int i = 0; i < item.oim.Count(); i++)
+        {
+            <div class="Innerdiv">
+                <img class="OrderIndeximg" src="~/Images/Products/@item.oim.ElementAt(i).id"/>
+                <div class="OrderIndexdes">@item.oim.ElementAt(i).description</div>
+
+            </div>
+<br />
+    }
+
+    </div>
+    <br />
+    
+}
+</div>
+
+<script>
+    var div = new Array();
+    $(".superdiv").each(function () {        
+        div.push($(this));
+    });
+
+    for (var i = 0; i < div.length; i++)
+    {
+        div[i].css("margin-left", 100*(i+1)+"px");
+        div[i].animate({marginLeft:0});
+    }
+
+    $(".OrderIndeximg").each(function () {
+        $(this).attr("src", $(this).attr("src") + ".jpg");
+    });
+    $(".superdiv").each(function () {
+        $(this).click(function () {
+            window.location = "../../Order/Details/" + $(this).attr("title");
+        });
+    });
+</script>
+

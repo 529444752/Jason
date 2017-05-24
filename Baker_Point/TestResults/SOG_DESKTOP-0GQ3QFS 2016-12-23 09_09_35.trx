@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="8fcab2d4-3ee6-47ab-8c78-d8c7f5b349c2" name="SOG@DESKTOP-0GQ3QFS 2016-12-23 09:09:35" runUser="DESKTOP-0GQ3QFS\SOG" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="本地" id="6265ca64-5bdc-4c07-a379-7b1dd4932ce9">
+    <Description>这些设置为本地测试运行的默认测试设置。</Description>
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+    <Deployment runDeploymentRoot="SOG_DESKTOP-0GQ3QFS 2016-12-23 09_09_35" />
+  </TestSettings>
+  <Times creation="2016-12-23T09:09:35.6739483+08:00" queuing="2016-12-23T09:09:36.5806981+08:00" start="2016-12-23T09:09:36.6431760+08:00" finish="2016-12-23T09:09:36.8775752+08:00" />
+  <ResultSummary outcome="Completed">
+    <Counters total="1" executed="1" passed="1" error="0" failed="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+  <TestDefinitions>
+    <WebTest name="WebTest1" storage="j:\baker_point\webandloadtestproject1\webtest1.webtest" id="f8b23d9f-0117-4693-bf27-ef558ada0f46" persistedWebTest="77u/PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pg0KPFdlYlRlc3QgTmFtZT0iV2ViVGVzdDEiIElkPSJmOGIyM2Q5Zi0wMTE3LTQ2OTMtYmYyNy1lZjU1OGFkYTBmNDYiIE93bmVyPSIiIFByaW9yaXR5PSIyMTQ3NDgzNjQ3IiBFbmFibGVkPSJUcnVlIiBDc3NQcm9qZWN0U3RydWN0dXJlPSIiIENzc0l0ZXJhdGlvbj0iIiBUaW1lb3V0PSIwIiBXb3JrSXRlbUlkcz0iIiB4bWxucz0iaHR0cDovL21pY3Jvc29mdC5jb20vc2NoZW1hcy9WaXN1YWxTdHVkaW8vVGVhbVRlc3QvMjAxMCIgRGVzY3JpcHRpb249IiIgQ3JlZGVudGlhbFVzZXJOYW1lPSIiIENyZWRlbnRpYWxQYXNzd29yZD0iIiBQcmVBdXRoZW50aWNhdGU9IlRydWUiIFByb3h5PSIiIFN0b3BPbkVycm9yPSJGYWxzZSIgUmVjb3JkZWRSZXN1bHRGaWxlPSIiIC8+">
+      <Execution id="2af7366d-494f-4ff7-b272-c6ac74d770c6" />
+    </WebTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry isTransparent="false" testId="f8b23d9f-0117-4693-bf27-ef558ada0f46" executionId="2af7366d-494f-4ff7-b272-c6ac74d770c6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <WebTestResult executionId="2af7366d-494f-4ff7-b272-c6ac74d770c6" testId="f8b23d9f-0117-4693-bf27-ef558ada0f46" testName="WebTest1" computerName="DESKTOP-0GQ3QFS" duration="00:00:00.0042012" startTime="2016-12-23T09:09:36.6900555+08:00" endTime="2016-12-23T09:09:36.8619512+08:00" testType="4e7599fa-5ecb-43e9-a887-cd63cf72d207" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2af7366d-494f-4ff7-b272-c6ac74d770c6">
+      <ResultFiles>
+        <ResultFile path="WebTest1.webtestResult" />
+      </ResultFiles>
+      <TestSettings name="本地" id="6265ca64-5bdc-4c07-a379-7b1dd4932ce9">
+        <Description>这些设置为本地测试运行的默认测试设置。</Description>
+        <Execution>
+          <TestTypeSpecific>
+            <WebTestRunConfiguration testTypeId="4e7599fa-5ecb-43e9-a887-cd63cf72d207">
+              <Browser name="Internet Explorer 9.0" MaxConnections="6">
+                <Headers>
+                  <Header name="User-Agent" value="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)" />
+                  <Header name="Accept" value="*/*" />
+                  <Header name="Accept-Language" value="{{$IEAcceptLanguage}}" />
+                  <Header name="Accept-Encoding" value="GZIP" />
+                </Headers>
+              </Browser>
+            </WebTestRunConfiguration>
+          </TestTypeSpecific>
+          <AgentRule name="Execution Agents">
+          </AgentRule>
+        </Execution>
+        <Deployment runDeploymentRoot="SOG_DESKTOP-0GQ3QFS 2016-12-23 09_09_35" />
+      </TestSettings>
+      <WebTestResultFilePath>SOG_DESKTOP-0GQ3QFS 2016-12-23 09_09_35\In\2af7366d-494f-4ff7-b272-c6ac74d770c6\WebTest1.webtestResult</WebTestResultFilePath>
+    </WebTestResult>
+  </Results>
+</TestRun>

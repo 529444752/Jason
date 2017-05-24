@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Baker_Point.Models.Product>
+
+<div style="position:relative;float:left">
+    <div id="bannerContainer" style="position:relative;float:left;overflow:hidden;">
+        <img  id="banner" src="~/Images/mart1.png" height="400" width="600" style="cursor:pointer;"/>
+        <div id="next">></div>
+        <div id="previous"><</div>
+        <div id="productNameDiv" hidden="hidden"><div id="ProductName"></div></div>
+    </div>
+    
+    @if(!Request.IsAuthenticated)
+{
+    <div style="margin-left:10px;border:3px solid black;text-align:center;font-size:larger;float:left">Login and you will find a wonderful world!</div>
+}
+    else
+    {
+        <div id="homeplist">
+            <input type="text" id="searchp" style="width:150px;float:left"/>
+            <img id="search_btn" src="~/Images/search.png" style="width:30px;height:30px;" />
+            <div id="LatestOrder">
+                <h3>Latest Order</h3>
+                @if(ViewBag.Order!=null)
+                {
+                    foreach (Baker_Point.Controllers.HomeController.OrderItem item in ViewBag.Order)
+                    {
+                        <div class="OrderItem" style="opacity:0">
+                            <img class="ItemImg" src="~/Images/Products/@item.id"/>
+                            <div class="ItemNum">@item.Number</div>
+                            <div class="ItemPrice">@item.Price</div>
+                        </div> 
+                    <br />
+                    }
+                }
+            </div>
+
+            <h3 id="LastView" style="clear:both">LastView</h3>
+            @if (ViewBag.LastView == null)
+            {
+                <div>"You haven't viewed any products yet."</div>
+            }
+            else
+            {
+            foreach (Baker_Point.Models.lastView item in ViewBag.LastView)
+            {
+                <div class="LastViewProduct" style="opacity:0" onclick="javascript:window.location.href('../../Product/Details/@item.ProductID')">
+                    <img class="LastViewImg" src="~/Images/Products/@item.ProductID"/>
+                    <div class="LastViewName">@item.lastViewed.ProductName</div>
+                </div>
+            }
+            <h3>You may interest in the following goods:</h3>
+                if(Model.Count()<5)
+                {
+                foreach (var item in Model)
+                {
+                    <div class="recommendItem" style="opacity:0;margin-top:100px" onclick="javascript:window.location.href('../../Product/Details/@item.ProductID')">
+                        <img class="recommendImg" src="~/Images/Products/@item.ProductID"/>
+                        <div class="recommendName">@item.ProductName</div>
+                    </div> 
+                }
+                }
+                else
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                         <div class="recommendItem" style="opacity:0" onclick="javascript:window.location.href('../../Product/Details/@Model.ElementAt(i).ProductID')">
+                             <img class="recommendImg" src="~/Images/Products/@Model.ElementAt(i).ProductID"/>
+                             <div class="recommendName">@Model.ElementAt(i).ProductName</div>
+                         </div> 
+                    }
+                }
+            }
+        </div>
+    }
+</div>
+
+<script type="text/javascript" src="~/Scripts/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-ui-1.8.20.js"></script>
+<script type="text/javascript" src="~/Scripts/Home/Index.js"></script>
+<link  rel="stylesheet" type="text/css" href="~/Content/Element.css"/>

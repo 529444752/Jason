@@ -1,0 +1,63 @@
+﻿@model Baker_Point.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@Html.DisplayFor(model => model.ProductName)</h2>
+<p>
+    <link href="~/Content/Element.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="~/Scripts/jquery-ui-1.8.20.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/Product/Details.js"></script>
+</p>
+<style>
+    .display-label {
+        font-size:20px;
+    }
+
+    
+</style>
+<fieldset>
+    <legend>Product</legend>
+    <img id="img" src="" style="max-height:500px;max-width:500px;float:left;margin-right:20px;"/>
+        <div class="display-label">
+         @Html.DisplayNameFor(model => model.Details)
+    </div>
+     <div class="display-field" style="font-weight:bolder;font-size:20px;margin-top:20px;">
+        ¥@Html.DisplayFor(model => model.Price)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Details)
+    </div>
+    <div id="box" style="float:left;clear:both">
+        </div>
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Category)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Category.Description)
+        </div>
+    <img id="purchase" src="~/Images/purchase.png" height="25" width="153" style="margin-top:50px;margin-left:60px;cursor:pointer"/>
+    
+    <script>        
+        $(document).ready(function () {
+            var id = @Model.ProductID
+            $("#img").attr("src", "/Images/Products/" + id + ".jpg");
+            $("#purchase").bind("click", function () {
+                window.location = id + "?purchase='true'";
+                //window.location.reload();
+                alert("You have successfully put this in the cart!")
+            });
+        })
+            
+    </script>
+</fieldset>
+@if(User.IsInRole("admin"))
+{
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ProductID }) |
+    @Html.ActionLink("Delete", "Delete", new { id=Model.ProductID })|
+    @Html.ActionLink("Back to List", "Index")
+</p>
+}

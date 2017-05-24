@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Baker_Point.Models.Product>
+@{
+    ViewBag.Title = "Mart";
+}
+    <script type="text/javascript" src="~/Scripts/jquery-ui-1.8.20.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/Product/Mart.js"></script>
+<link type="text/css" rel="stylesheet" href="~/Content/Element.css"/>
+<h2>Mart</h2>
+@foreach (var item in Model)
+{
+    <div class="martelem">
+        <img class="mpic" src=""/> 
+        <div style="font-size:20px;font-weight:bolder">@item.ProductName</div>
+        <div style="margin-left:400px;margin-top:55px;">¥@Html.DisplayFor(m=>item.Price)</div>
+    </div>
+    
+}
+<script type="text/javascript">
+    StandardTaxRate();
+</script>

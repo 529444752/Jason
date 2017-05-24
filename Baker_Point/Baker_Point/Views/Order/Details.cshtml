@@ -1,0 +1,79 @@
+﻿@model Baker_Point.Controllers.OrderController.OrderIndex
+
+<style>
+    ul#back {
+    font-size: 1.3em;
+    font-weight: 600;
+    padding: 0;
+}
+
+    ul#back li {
+        display: inline;
+        list-style: none;
+    }
+
+        ul#back li a {
+            background: none;
+            color: #999;
+            text-decoration: none;
+        }
+
+        ul#back li a:hover {
+            color: #333;
+            text-decoration: none;
+        }
+
+    .OrderIndeximg {
+        width:100px;
+        height:100px;
+        padding-right:300px;
+        float:left
+    }
+    .OrderIndexdes {
+        height:100px;
+        font-size:large;
+    }
+    .Innerdiv {
+        position:relative;
+        margin-bottom:5px;
+    }
+    #container {
+        margin-left:50px;
+    }
+</style>
+    <ul id="back">
+        <li>
+            <a href="../../Order/Index">< Back</a>
+        </li>
+    </ul>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div id="container">
+    <h2>Details</h2>
+    <h3>@ViewBag.UserName</h3>
+    @for (int i = 0; i < Model.oim.Count(); i++)
+        {
+            <div class="Innerdiv">
+                <img class="OrderIndeximg" src="~/Images/Products/@Model.oim.ElementAt(i).id"/>
+                <div class="OrderIndexdes">@Model.oim.ElementAt(i).description</div>
+
+            </div>
+<br />
+    }
+</div>
+
+@if(User.IsInRole("admin"))
+{
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.orderid })
+</p>
+}
+
+<script>
+    $(".OrderIndeximg").each(function () {
+        $(this).attr("src", $(this).attr("src") + ".jpg");
+    });
+</script>

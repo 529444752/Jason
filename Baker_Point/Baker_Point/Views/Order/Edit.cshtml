@@ -1,0 +1,92 @@
+﻿@model Baker_Point.Controllers.OrderController.OrderEditModel
+
+<style>
+    ul#back {
+    font-size: 1.3em;
+    font-weight: 600;
+    padding: 0;
+}
+
+    ul#back li {
+        display: inline;
+        list-style: none;
+    }
+
+        ul#back li a {
+            background: none;
+            color: #999;
+            text-decoration: none;
+        }
+
+        ul#back li a:hover {
+            color: #333;
+            text-decoration: none;
+        }
+
+    .OrderIndeximg {
+        width:100px;
+        height:100px;
+        padding-right:300px;
+        float:left
+    }
+    .OrderIndexdes {
+        height:100px;
+        font-size:large;
+    }
+    .Innerdiv {
+        position:relative;
+        margin-bottom:5px;
+    }
+    #container {
+        margin-left:50px;
+    }
+</style>
+    <ul id="back">
+        <li>
+            <a href="../../Order/Index">< Back</a>
+        </li>
+    </ul>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div id="container">
+    <h2>Details</h2>
+    @using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+        <fieldset>
+            <legend>OrderEditModel</legend>
+            @Html.HiddenFor(m=>m.OrderId)
+            @for (int i = 0; i < Model.OrderitemList.Count();i++ )
+            {
+                <div class="Innerdiv">
+                <input type="hidden" value="@Model.OrderitemList.ElementAt(i).id" name="OrderitemList[@i].id"/>
+                <input type="hidden" value="@Model.OrderitemList.ElementAt(i).Price" name="OrderitemList[@i].Price"/>
+                <img class="OrderIndeximg" src="~/Images/Products/@Model.OrderitemList.ElementAt(i).id"/>
+                <div class="OrderIndexdes"><input type="text" value="@Model.OrderitemList.ElementAt(i).Number" name="OrderitemList[@i].Number"/></div>
+            </div>
+<br />
+            }
+            <input type="submit" value="OK"/>
+        </fieldset>
+    }
+
+</div>
+
+@if(User.IsInRole("admin"))
+{
+<p>
+    @Html.ActionLink("Delete", "Delete", new { id=Model.OrderId })
+</p>
+}
+
+<script>
+    $(".OrderIndeximg").each(function () {
+        $(this).attr("src", $(this).attr("src") + ".jpg");
+    });
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

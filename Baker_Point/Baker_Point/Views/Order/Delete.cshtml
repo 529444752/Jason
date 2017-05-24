@@ -1,0 +1,80 @@
+﻿@model Baker_Point.Controllers.OrderController.OrderEditModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<style>
+    ul#back {
+    font-size: 1.3em;
+    font-weight: 600;
+    padding: 0;
+}
+
+    ul#back li {
+        display: inline;
+        list-style: none;
+    }
+
+        ul#back li a {
+            background: none;
+            color: #999;
+            text-decoration: none;
+        }
+
+        ul#back li a:hover {
+            color: #333;
+            text-decoration: none;
+        }
+
+    .OrderIndeximg {
+        width:100px;
+        height:100px;
+        padding-right:300px;
+        float:left
+    }
+    .OrderIndexdes {
+        height:100px;
+        font-size:large;
+    }
+    .Innerdiv {
+        position:relative;
+        margin-bottom:5px;
+    }
+    #container {
+        margin-left:50px;
+    }
+</style>
+</style>
+    <ul id="back">
+        <li>
+            <a href="../../Order/Index">< Back</a>
+        </li>
+    </ul>
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+    @using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+        <fieldset>
+            <legend>OrderEditModel</legend>
+            @Html.HiddenFor(m=>m.OrderId)
+            @for (int i = 0; i < Model.OrderitemList.Count();i++ )
+            {
+                <div class="Innerdiv">
+                <input type="hidden" value="@Model.OrderitemList.ElementAt(i).id" name="OrderitemList[@i].id"/>
+                <input type="hidden" value="@Model.OrderitemList.ElementAt(i).Price" name="OrderitemList[@i].Price"/>
+                <img class="OrderIndeximg" src="~/Images/Products/@Model.OrderitemList.ElementAt(i).id"/>
+                <div class="OrderIndexdes">*@Model.OrderitemList.ElementAt(i).Number<input type="hidden" value="@Model.OrderitemList.ElementAt(i).Number" name="OrderitemList[@i].Number"/></div>
+            </div>
+<br />
+            }
+            <input type="submit" value="Delete"/>
+        </fieldset>
+    }
+
+<script>
+    $(".OrderIndeximg").each(function () {
+        $(this).attr("src", $(this).attr("src") + ".jpg");
+    });
+</script>

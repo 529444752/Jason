@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Baker_Point.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<form id="prolist" action="/Product/Index" method="post" >
+<h2 id="cat">@ViewBag.Category</h2>
+@Html.DropDownList("Categories", null,string.Empty, htmlAttributes: new { id="list"})
+    <input type="hidden" name="Category" value="0" id="cate"/>
+<p>
+    @if(User.IsInRole("admin"))
+    {
+    <div id="create" style="float:right" title="create new product" onclick="javascript:window.location.href='../../Product/Create'">+</div>
+    }
+    <link href="~/Content/Element.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="~/Scripts/jquery-ui-1.8.20.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-1.7.1.js"></script>
+
+    <script>
+        $("#list").append("<option value='0'>All Categories</option>");
+        $("#list").change(function () {
+            var id = $(this).val();
+            var text = $(this).find("option:selected").text();
+            $("#cat").html(text);
+            $("#cate").val(id);
+            //window.location.href("../../Product/Index?CategoryId="+id);
+            $("#prolist").submit();
+        });
+    </script>
+</p>
+    @if (ViewBag.empty == 0)
+    {
+        <h1>No Results.</h1> 
+    }
+@foreach (var item in Model) {
+    <input type="hidden" name="products[@Model.ToList().IndexOf(item)].ProductID" value="@item.ProductID"/>
+    <input type="hidden" name="products[@Model.ToList().IndexOf(item)].ProductName" value="@item.ProductName"/>
+    <input type="hidden" name="products[@Model.ToList().IndexOf(item)].Price" value="@item.Price"/>
+    <input type="hidden" name="products[@Model.ToList().IndexOf(item)].Details" value="@item.Details"/>
+    <input type="hidden" name="products[@Model.ToList().IndexOf(item)].CategoryID" value="@item.CategoryID"/>
+    <div class="item">
+        <div style="position:relative;cursor:pointer" class="productContainer" id="pC/@item.ProductID">
+            <img class="pic" src="~/Images/Products/@item.ProductID"/>
+            <div style="position:absolute;opacity:0.8;color:white;background-color:black;z-index:99999;" hidden="hidden" class="indexDet" id="det/@item.ProductID">@item.Details</div>
+        </div>
+        <h4 class="productPrice" style="color:orange;text-align:right">@item.Price</h4>
+        @Html.ActionLink(item.ProductName, "Details", new { id = item.ProductID })
+
+    </div>
+}
+</form>
+<script type="text/javascript">
+    $(".productPrice").each(function () {
+        $(this).prepend("¥");
+    });
+    $(".pic").each(function () {
+        $(this).attr("src", $(this).attr("src") + ".jpg");
+    });
+    $(".productContainer").each(function () {
+        var id = String($(this).attr("id")).substr(3);
+        $(this).click(function () {
+            window.location.href = "../../Product/Details/" + id;
+        })
+        $(this).hover(function () {
+            var a = $(this).children(".indexDet")
+            a.show();
+            a.animate({ height: "200px", top: "0px" });
+        }, function () {
+            var a = $(this).children(".indexDet")
+            a.animate({ height: "0px", top: "200px" }, function () {
+                a.hide();
+            });
+            
+        })
+    });
+</script>
+

@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+    <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title - 我的 ASP.NET MVC 应用程序</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        <script type="text/javascript" src="~/Scripts/jquery-1.7.1.js"></script>
+        <script type="text/javascript" src="~/Scripts/jquery-ui-1.8.20.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var isSelected = false;
+                $(".cart").mouseover(
+                        function () {
+                            $(this).attr("src", "/Images/mart2.png");
+                        });
+                $(".cart").mouseout(
+                        function () {
+                            $(this).attr("src", "/Images/mart1.png");
+                        });
+                $("#rightHome").click(function () {
+                    window.location = "../../Home/Index";
+                });
+                $("#rightAccount").click(function () {
+                    window.location = "../../Account/Manage";
+                });
+                $("#rightOrder").click(function () {
+                    window.location = "../../Order/Index";
+                });
+                $("#rightCart").click(function () {
+                    window.location = "../../Product/Cart";
+                });
+                $("#rightBarhidden").hover(function () {
+                    $("#rightBar").show(100);
+                    $(this).hide(1);
+                });
+                $("#rightBar").mouseleave(function () {
+                    $(this).hide(100);
+                    $("#rightBarhidden").show(100);
+                });
+
+                $("#sbCategory").focus(function () { isSelected = true;});
+                $("#sbCategory").blur(function () { isSelected = false; });
+                $("#Searchdiv").hover(function () {
+                    if (!isSelected) {
+                        $("#searchBar").attr("src", "../../Images/SearchBar2.png");
+                        $("#search").animate({ borderWidth: "10px" });
+                        $("#searchtxt").show();
+                        $("#searchtxt").animate({ width: "300px", top: "10px", left: "30px" });
+                        //$("#searchtxt").animate({ top: "10px" });
+                    }
+                }, function () {
+                    if (!isSelected) {
+                        $("#searchBar").attr("src", "../../Images/SearchBar1.png");
+                        $("#search").animate({ borderWidth: "0px" }, function () {
+                            $("#searchtxt").hide();
+                        });
+                        $("#searchtxt").animate({ width: "0px", top: "0px", left: "0px" });
+                        
+                    }
+                });
+                $("#txthid").keyup(function (event) {
+                    if (event.keyCode == 13)
+                    {
+                        $("#inpCat").val($("#sbCategory").val());
+                        $("#searchform").submit();
+                    }
+                })
+                $("#txthid").blur(function () {
+                    $("#searchtxt").css("border","1px solid lightgrey");
+                });
+                $("#txthid").focus(function () {
+                    $("#searchtxt").css("border", "1px solid cyan");
+                });
+            });
+</script>
+    </head>
+    <body>
+        <header>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p class="site-title"><img src="~/Images/baker point.png"/></p>
+                </div>
+                <div class="float-right" style="margin-top:100px;">
+                    <section id="login">
+                        @Html.Partial("_LoginPartial")
+                    </section>
+                    <nav>
+                        <ul id="menu">
+                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                            @if(Request.IsAuthenticated)
+                            {
+                            <li>@Html.ActionLink("Product", "Index", "Product")</li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <div id="body">
+            @RenderSection("featured", required: false)
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+            </section>
+        </div>
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p>&copy; @DateTime.Now.Year - Baker Point</p>
+                </div>
+            </div>
+        </footer>
+        <form id="searchform" action="../../Product/Index">
+            <div id="Searchdiv" style="position:fixed;left:10px;top:10px;">            
+            <div style="height:30px;top:0px;width:0px;border-radius:100px;position:absolute;border:1px solid lightgrey;background-color:white;" id="searchtxt" hidden="hidden"><select style="border:none;margin-left:20px;border-radius:100px;outline:none;float:left;margin-top:5px;" id="sbCategory" name="Category"><option value="0"></option><option value="1">Drink</option><option value="2">Bread</option><option value="3">Pudding</option><option value="4">Cake</option><option value="5">Dessert</option></select><input type="text" style="border:none;width:60%;border-radius:100px;outline:none;float:left" name="productName" id="txthid"/></div>
+                <input type="hidden" name="CategoryId" id="inpCat"/>
+            <div id="search" style="border-radius:100px;background-color:orange;height:30px;width:30px;position:absolute;text-align:center;border:0px solid darkorange"><img style="margin-top:5px;width:70%;" src="~/Images/SearchBar1.png" id="searchBar"/></div>
+            </div>
+        </form>
+        
+                <div id="rightBarhidden" style="position:fixed;right:0px;background-color:black;text-align:center;opacity:0.7;top:20%;padding:5px;cursor:default;color:white;padding-bottom:7px;"><</div>
+        <div id="rightBar" style="position:fixed;right:0px;background-color:black;text-align:center;opacity:0.7;top:20%;padding:5px;padding-bottom:0px;" hidden="hidden">
+            <div class="rightBarItem" id="rightHome">Home</div>
+            <div class="rightBarItem" id="rightAccount">Account</div>
+            <div class="rightBarItem" id="rightOrder">Orders</div>
+            <div class="rightBarItem" id="rightCart">Cart</div>
+        </div>
+        @Scripts.Render("~/bundles/jquery")
+        @RenderSection("scripts", required: false)
+    </body>
+</html>
