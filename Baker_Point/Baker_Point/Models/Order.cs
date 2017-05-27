@@ -38,5 +38,9 @@ namespace Baker_Point.Models
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<rootCart> Cart { get; set; }
         public DbSet<lastView> lastViewedProduct { get; set; }
+        public DbSet<Blogs> Blogs { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<UserAvatar> Avatars { get; set; }
+        public DbSet<FeaturedList> Featured { get; set; }
     }
 }

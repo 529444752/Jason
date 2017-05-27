@@ -1,8 +1,28 @@
-﻿<ul>
+﻿
+@{
+    Baker_Point.Models.BPDbContext db = new Baker_Point.Models.BPDbContext();
+    if(Request.IsAuthenticated)
+    {
+        var avatar = db.Avatars.Where(m => m.UserId == WebSecurity.CurrentUserId).ToList();
+        if(avatar.Count!=0)
+        {
+            ViewBag.AvatarSrc = avatar[0].imgSrc;
+        }
+        else
+        {
+            ViewBag.AvatarSrc = "/Images/Account.png";
+        }
+    }
+    else
+    {
+        ViewBag.AvatarSrc = "/Images/Account.png";
+    }
+    }
+<ul>
 @if (Request.IsAuthenticated) {
     <text>
     <div style="position:relative" id="accdiv">
-        <img id="account" src="~/Images/Account.png" width="40" height="40" style="float:left;" title="Manage Account"/>
+        <img id="account" src="../../@ViewBag.AvatarSrc" width="40" height="40" style="float:left;border-radius:40px;" title="Manage Account"/>
         <div style="position:absolute;border-radius:40px;width:40px;height:40px;background-color:black;opacity:0" id="acc"></div>
     </div>
         <div style="padding-top:20px;float:left">
@@ -15,7 +35,7 @@
         }
     </text>
 } else {
-        <img class="login" src="/Images/Account.png" width="40" height="40" style="margin-right:20px;" title="Login"/>
+        <img class="login" src="../../Images/Account.png" width="40" height="40" style="margin-right:20px;" title="Login"/>
 }
         <span id="cartContainner">
               <img id="CartALogin" class="cart" src="/Images/mart1.png" width="40" height="40" style="margin-left:20px;" title="Shopping Cart"/>
@@ -58,24 +78,14 @@
         });
         $("#accdiv").mouseover(
                 function () {
-                    if (!isFound) {
-                        $("#account").attr("src", "/Images/Account2.png");
-                    }
-                    else {
                         $("#acc").css("opacity", "0.7");
-                    }
                 });
         $("#accdiv").mouseout(
                 function () {
-                    if (!isFound) {
-                        $("#account").attr("src", "/Images/Account.png");
-                    }
-                    else {
                         $("#acc").css("opacity", "0");
-                    }
                 });
         $("#accdiv").click(function () {
-            window.location = "../../Account/Manage";
+            window.location = "../../Account/UserCenter/@WebSecurity.CurrentUserId";
         });
 
     });
@@ -109,7 +119,7 @@
     }
     var src;
     var isFound = false;
-    c();
+    //c();
     function c() {
         $.ajax({
             url: '../../Avatar/@User.Identity.Name' + '.jpeg',

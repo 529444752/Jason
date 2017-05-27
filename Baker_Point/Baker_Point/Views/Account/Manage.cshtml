@@ -1,8 +1,24 @@
 ﻿@model Baker_Point.Models.LocalPasswordModel
 @{
     ViewBag.Title = "Manage Account";
-}
-
+    Baker_Point.Models.BPDbContext db = new Baker_Point.Models.BPDbContext();
+    if(Request.IsAuthenticated)
+    {
+        var avatar = db.Avatars.Where(m => m.UserId == WebSecurity.CurrentUserId).ToList();
+        if(avatar.Count!=0)
+        {
+            ViewBag.AvatarSrc = avatar[0].imgSrc;
+        }
+        else
+        {
+            ViewBag.AvatarSrc = "/Images/Account.png";
+        }
+    }
+    else
+    {
+        ViewBag.AvatarSrc = "/Images/Account.png";
+    }
+ }
 <hgroup class="title">
     <h1>@ViewBag.Title.</h1>
 </hgroup>
@@ -21,7 +37,7 @@ else
 }
 <div>
     <h1>Change your avatar</h1>
-    <img id="Avatar" style="max-width:50%"/>
+    <img id="Avatar" style="max-width:50%" src="../../@ViewBag.AvatarSrc"/>
 <form enctype = "multipart/form-data" action="UpAva" id="avaform" method="post">
     <input type="hidden" name="scroll" id="scroll"/>
     <input type="file" id="upava" name="upava" onchange="onChange()"/>
@@ -31,7 +47,7 @@ else
 <script type="text/javascript">
     var src;
     var isFound = false;
-    a();
+    //a();
     function a() {
         $.ajax({
             url: '/Avatar/@User.Identity.Name' + '.jpeg',

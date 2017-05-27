@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Baker_Point.Controllers.ProductController.GetCartModel>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CartShortCut</title>
+    <style>
+        .CartImg {
+            width:20px;
+            height:20px;
+            float:left;
+        }
+        .CartPName {
+            float:left;
+            margin-left:5px;
+            margin-right:20px;
+        }
+        .CartItem {
+            background-color:white;
+            overflow:hidden;
+            margin-bottom:2px;
+            width:auto;
+        }
+    </style>
+    <script type="text/javascript" src="~/Scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui-1.8.20.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".CartImg").each(function () {
+                $(this).attr("src", $(this).attr("src") + ".jpg");
+            });
+            $(".CartNum").each(function () {
+                $(this).prepend("x");
+            });
+        })
+        
+    </script>
+</head>
+<body>
+    <div>
+        @if(ViewBag.empty)
+        {
+            foreach (var item in Model)
+            {
+                <div class="CartItem">
+                    <img class="CartImg" src="/Images/Products/@item.ProductId"/> 
+                    <div class="CartPName">@item.ProductName</div>
+                    <div class="CartNum">@item.Number</div>
+
+                </div>
+        }
+        }
+    </div>
+</body>
+</html>

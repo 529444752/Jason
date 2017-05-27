@@ -11,7 +11,6 @@
 <link  rel="stylesheet" type="text/css" href="~/Content/Element.css"/>
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
-
     <fieldset>
         <legend>Confirm Your Order</legend>
         <div>
@@ -30,11 +29,12 @@
 
         </div>
     </fieldset>
-}
-<div id="total">
-    
+    <div id="total">   
 </div>
+    <input type="hidden" name="UserId" value="@WebSecurity.CurrentUserId"/>
 <input type="submit" id="submit" value="Confirm"/>
+}
+
 
 <div>
     @Html.ActionLink("Back to List", "Index")
@@ -61,9 +61,6 @@
     $("#OrderCreateNumber").each(function () {
         $(this).prepend("x");
     })
-    $("#submit").click(function () {
-        $("form").submit();
-    });
 </script>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

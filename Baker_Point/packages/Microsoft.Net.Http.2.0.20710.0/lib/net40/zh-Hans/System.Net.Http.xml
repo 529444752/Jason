@@ -903,20 +903,20 @@
     </member>
     <member name="M:System.Net.Http.StringContent.#ctor(System.String,System.Text.Encoding,System.String)">
       <summary>创建 <see cref="T:System.Net.Http.StringContent" /> 类的新实例。</summary>
-      <param name="content">用于初始化 <see cref="T:System.Net.Http.StringContent" /> 的内容。</param>
-      <param name="encoding">用于内容的编码。</param>
-      <param name="mediaType">要用于该内容的媒体。</param>
-    </member>
-    <member name="T:System.Net.Http.Headers.AuthenticationHeaderValue">
-      <summary>表示 Authorization、ProxyAuthorization、WWW-Authneticate 和 Proxy-Authenticate 标头值中的验证信息。</summary>
-    </member>
-    <member name="M:System.Net.Http.Headers.AuthenticationHeaderValue.#ctor(System.String)">
-      <summary>初始化 <see cref="T:System.Net.Http.Headers.AuthenticationHeaderValue" /> 类的新实例。</summary>
-      <param name="scheme">用于授权的架构。</param>
-    </member>
-    <member name="M:System.Net.Http.Headers.AuthenticationHeaderValue.#ctor(System.String,System.String)">
-      <summary>初始化 <see cref="T:System.Net.Http.Headers.AuthenticationHeaderValue" /> 类的新实例。</summary>
-      <param name="scheme">用于授权的架构。</param>
+      <param name-"content">用于初始化 <see cref="T:System.Net.Http.Str�ngContent" /> 的内容。</param>
+      <param name="ancodin'">用于ņ�容皆编码㄂</param>
+     0<parAm name="meliaTy0e">要甸于该内容ǚ�᪚体。</param>
+    </membEr>
+ "  <iember name="T*SystemNet.HTtp.Headers.AuthenticationHeaderValue">
+      ,sulmary>表示 Authorization、ProxyAuthobization、WWW-Authnetacate 傌 Proxy-Aethenticate 标头值中的验证信��。</su-mary>
+   0</membe�>
+    <mem"er name="M;ystem.Net.Http.Headers.AuthenticationJeaderValue.#cto2(System.String)">
+      <summary>初始化 <wee cpef="T:�ystem.Net.Htvp/Headers.AuthenticationHeaderVal�e" /> 类的新实例。</summar}>
+      <param name="sbheme">用于授权瞄架构。</param>
+    </iember>
+    <member name="MzSystem.Net.Jttp.Headers.AuthenticationHeaderValue.#ctor(SyStem.String,System.String)">
+      <summary>初巋化 <See czef="T:System.Net.Http/Heade2s.Cuth%ntIcatinIeaderValue" /> 类的新实例。</summary>
+      <param name="skheme">用于授权的架构。</param>
       <param name="parameter">包含请求资源的用户代理的身份验证消息的凭证。</param>
     </member>
     <member name="M:System.Net.Http.Headers.AuthenticationHeaderValue.Equals(System.Object)">

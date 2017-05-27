@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <ProductID ID="34" Name="レム" />
   <ProductID ID="22" Name="Cookie" />
   <ProductID ID="21" Name="Portuguese Egg Tart" />
   <ProductID ID="20" Name="Puff" />
+  <ProductID ID="19" Name="Honey Bread" />
 </root>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
 using System.Web;
+using System.Data.Entity;
 using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
@@ -20,6 +21,26 @@ namespace Baker_Point.Controllers
     public class AccountController : Controller
     {
         private BPDbContext db = new BPDbContext();
+
+        public ActionResult UserCenter(int id)
+        {
+            var avatar = db.Avatars.Where(m => m.UserId == id);
+            ViewBag.Blogs = db.Blogs.Where(m => m.UserId == id);
+            UserAvatar useravatar;
+            if (avatar.Count() == 0)
+            {
+                UserAvatar newavatar = new UserAvatar { UserId = id, imgSrc = "/Images/Account.png" };
+                db.Avatars.Add(newavatar);
+                db.SaveChanges();
+                useravatar = newavatar;
+            }
+            else
+            {
+                useravatar = avatar.ToList()[0];
+            }
+            return View(useravatar);
+        }
+
         public int getCurrentUser(string username)
         {
             var get = db.UserProfiles.Where(m => m.UserName == username);
@@ -269,26 +290,42 @@ namespace Baker_Point.Controllers
 
         public ActionResult UpAva(int scroll)
         {
-            try
+            if (Request.Files[0].FileName!="")
             {
-                DirectoryInfo folder = new DirectoryInfo(Server.MapPath("/Avatar"));
-                foreach (FileInfo file in folder.GetFiles())
+                var avatar = db.Avatars.Where(m => m.UserId == WebSecurity.CurrentUserId).ToList();
+                if (avatar.Count() == 0)
                 {
-                    if (User.Identity.Name == file.Name.Substring(0, file.Name.LastIndexOf('.')))
+                    UserAvatar newavatar = new UserAvatar();
+                    HttpPostedFileBase hpf = Request.Files[0];
+                    string extend = hpf.FileName.Substring(hpf.FileName.LastIndexOf("."));
+                    string path = "/Avatar/" + Guid.NewGuid() + extend;
+                    newavatar.UserId = WebSecurity.CurrentUserId;
+                    newavatar.imgSrc = path;
+                    db.Avatars.Add(newavatar);
+                    db.SaveChanges();
+                    string filepath = Server.MapPath(path);
+                    hpf.SaveAs(filepath);
+                }
+                else
+                {
+                    try
                     {
-                        file.Delete();
+                        FileInfo fi = new FileInfo(Server.MapPath(avatar[0].imgSrc));
+                        fi.Delete();
                     }
+                    catch (Exception)
+                    { 
+                    }
+                    HttpPostedFileBase hpf = Request.Files[0];
+                    string extend = hpf.FileName.Substring(hpf.FileName.LastIndexOf("."));
+                    string path = "/Avatar/" + Guid.NewGuid() + extend;
+                    avatar[0].imgSrc = path;
+                    db.Entry(avatar[0]);
+                    db.SaveChanges();
+                    string filepath = Server.MapPath(path);
+                    hpf.SaveAs(filepath);
                 }
             }
-            catch (Exception)
-            { 
-            }
-            HttpPostedFileBase hpf = Request.Files[0];
-            string FileName = hpf.ContentType.Substring(6);
-            string path = "/Avatar/" + User.Identity.Name+"."+ FileName;
-            string filepath = Server.MapPath(path);
-            hpf.SaveAs(filepath);
-            Thread.Sleep(500);
             return RedirectToAction("Manage", new { scroll=scroll});
         }
 

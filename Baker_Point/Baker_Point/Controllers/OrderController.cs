@@ -6,10 +6,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Baker_Point.Models;
+using WebMatrix.WebData;
+using Baker_Point.Filters;
 using System.Xml;
 
 namespace Baker_Point.Controllers
 {
+    [InitializeSimpleMembership]
     public class OrderController : Controller
     {
         private BPDbContext db = new BPDbContext();
@@ -28,7 +31,7 @@ namespace Baker_Point.Controllers
         // GET: /Product/
         public List<GetCartModel> returnCart()
         {
-            int userid = getCurrentUser();
+            int userid = WebSecurity.CurrentUserId;
             List<GetCartModel> CartItemList = new List<GetCartModel>();
             int next = db.Cart.First(c => c.UserId == userid).next;
             while (next != 0)
@@ -48,7 +51,7 @@ namespace Baker_Point.Controllers
 
         public void clearCart()
         {
-            int userid = getCurrentUser();
+            int userid = WebSecurity.CurrentUserId;
             var user = db.Cart.First(c => c.UserId == userid);
             int next = user.next;
             while (next != 0)
@@ -87,17 +90,6 @@ namespace Baker_Point.Controllers
             public List<OrderItem> OrderitemList { get; set; }
         }
 
-        public int getCurrentUser()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                var get = db.UserProfiles.Where(m => m.UserName == User.Identity.Name);
-                return (get.ToList().ElementAt(0).UserId);
-            }
-            else
-                return 0;
-        }
-
         [Authorize]
         public ActionResult Index()
         {
@@ -106,7 +98,7 @@ namespace Baker_Point.Controllers
             List<OrderIndex> oil = new List<OrderIndex>();
             if (!User.IsInRole("Admin"))
             {
-                int id = getCurrentUser();
+                int id = WebSecurity.CurrentUserId;
                 var orders = db.Orders.Where(o => o.UserID == id).ToList();
                 foreach (var item in orders)
                 {
@@ -201,7 +193,7 @@ namespace Baker_Point.Controllers
             }
             if (User.Identity.IsAuthenticated)
             {
-                int userid = getCurrentUser();
+                int userid = WebSecurity.CurrentUserId;
                 if (User.IsInRole("admin") || order.UserID == userid)
                 {
                     var username = db.UserProfiles.Find(order.UserID).UserName;
@@ -266,7 +258,6 @@ namespace Baker_Point.Controllers
         [HttpPost]
         public ActionResult Create(Order order)
         {
-            order = new Order();
             List<GetCartModel> list = returnCart();
             if (ModelState.IsValid&&User.Identity.IsAuthenticated)
             {

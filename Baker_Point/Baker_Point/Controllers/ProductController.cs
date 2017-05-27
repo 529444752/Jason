@@ -8,9 +8,14 @@ using System.Web.Mvc;
 using Baker_Point.Models;
 using System.Xml;
 using System.IO;
+using WebMatrix.WebData;
+using Baker_Point.Filters;
 
 namespace Baker_Point.Controllers
 {
+
+    [Authorize]
+    [InitializeSimpleMembership]
     public class ProductController : Controller
     {
         private BPDbContext db = new BPDbContext();
@@ -26,7 +31,7 @@ namespace Baker_Point.Controllers
         // GET: /Product/
         public void ReWriteCart()
         {
-            int user = getCurrentUser();
+            int user = WebSecurity.CurrentUserId;
             var cart = db.Cart.Where(u => u.UserId == user).ToList();
             int num = 0;
             if (cart.Count != 0)
@@ -43,7 +48,7 @@ namespace Baker_Point.Controllers
 
         public List<GetCartModel> returnCart()
         {
-            int userid = getCurrentUser();
+            int userid = WebSecurity.CurrentUserId;
             List<GetCartModel> CartItemList = new List<GetCartModel>();
             int next = db.Cart.First(c => c.UserId == userid).next;
             while (next != 0)
@@ -64,7 +69,7 @@ namespace Baker_Point.Controllers
         public int getCartproduct(int targetId)
         {
             int CartItemId = 0;
-            int User = getCurrentUser();
+            int User = WebSecurity.CurrentUserId;
             int next = 0;
             var cart = db.Cart.Where(c => c.UserId == User).ToList();
             if (cart.Count != 0)
@@ -85,16 +90,6 @@ namespace Baker_Point.Controllers
             return CartItemId;
         }
 
-        public int getCurrentUser()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                var get = db.UserProfiles.Where(m => m.UserName == User.Identity.Name);
-                return (get.ToList().ElementAt(0).UserId);
-            }
-            else
-                return 0;
-        }
 
         public void add(int id)
         {
@@ -149,7 +144,7 @@ namespace Baker_Point.Controllers
 
         public void bindCart()
         {
-            int userid = getCurrentUser();
+            int userid = WebSecurity.CurrentUserId;
             if (db.Cart.Where(c => c.UserId == userid).Count() == 0)
             {
                 rootCart rc = new rootCart();
@@ -163,7 +158,7 @@ namespace Baker_Point.Controllers
 
         public void setLastView(int id)
         {
-            int userid = getCurrentUser();
+            int userid = WebSecurity.CurrentUserId;
             if (db.lastViewedProduct.Where(p => p.UserID == userid).Count() == 0)
             {
                 lastView lv = new lastView();
@@ -316,7 +311,7 @@ namespace Baker_Point.Controllers
                 int CartId = getCartproduct(id);
                 if (CartId == 0)
                 {
-                    int CurrentUser = getCurrentUser();
+                    int CurrentUser = WebSecurity.CurrentUserId;
                     rootCart cart = db.Cart.Where(m => m.UserId == CurrentUser).ToList().ElementAt(0);
                     CartItem ci = new CartItem();
                     ci.ProductId = id;

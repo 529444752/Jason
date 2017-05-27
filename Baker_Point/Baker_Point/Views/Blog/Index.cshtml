@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Baker_Point.Models.Blogs>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutBlog.cshtml";
+    Baker_Point.Models.BPDbContext db = new Baker_Point.Models.BPDbContext();
+    ViewBag.FeaturedBlogs = db.Featured.ToList();
+}
+
+
+<div class="widewrapper main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 blog-main">
+                <div class="row">
+                    <h2>Blogs</h2>
+                    @if(Request.IsAuthenticated)
+                    {
+                        <a class="btn btn-default" href="../../Blog/Create">I want write a blog.</a>
+                        <br />
+                        <hr />
+                        <br />
+                    }
+                    @foreach (var item in Model) {
+                        <div class="col-md-12">
+                            <article class="blog-teaser">
+                                @if (item.titleImg == "")
+                                { 
+                                    <img style="background-color:lightgray;float:left" width="75" height="75"/>
+                                }
+                                else 
+                                {
+                                    <img src="../../@item.titleImg" style="float:left" width="75" height="75"/>
+                                } 
+                                <h3 style="float:none"><a href="../../Blog/Details/@item.BlogsId">@item.BlogTitle</a></h3>
+                                <span class="meta">@item.PostTime,@item.User.UserName</span>
+
+                            </article>
+                        </div>
+                    }
+                    </div>
+                </div>
+            <aside class="col-md-4 blog-aside">
+                <div class="aside-widget">
+                    <header>
+                        <h3>Featured Post</h3>
+                    </header>
+                    <div class="body">
+                        <ul class="clean-list">
+                            @foreach (Baker_Point.Models.FeaturedList item in ViewBag.FeaturedBlogs)
+                                {
+                                    <li><a href="../../Blog/Details/@item.BlogsId">@item.blog.BlogTitle</a></li> 
+                                }
+                        </ul>
+                    </div>
+                </div>
+                <div class="aside-widget">
+                    <header>
+                        <h3>Related Post</h3>                       
+                    </header>
+                    <div class="body">
+                        <ul class="clean-list">
+                            <li><a href="">Blackor Responsive Theme</a></li>
+                            <li><a href="">Portfolio Bootstrap Template</a></li>
+                            <li><a href="">Clean Slider Template</a></li>
+                            <li><a href="">Clean - Responsive HTML5 Template</a></li>
+                            <li><a href="">Responsive Pricing Table</a></li>
+                            <li><a href="">Yellow HTML5 Template</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="aside-widget">
+                    <header>
+                        <h3>Tags</h3>
+                    </header>
+                    <div class="body clearfix">
+                        <ul class="tags">
+                            <li><a href="#">HTML5</a></li>
+                            <li><a href="#">CSS3</a></li>
+                            <li><a href="#">COMPONENTS</a></li>
+                            <li><a href="#">TEMPLATE</a></li>
+                            <li><a href="#">PLUGIN</a></li>
+                            <li><a href="#">BOOTSTRAP</a></li>
+                            <li><a href="#">TUTORIAL</a></li>
+                            <li><a href="#">UI/UX</a></li>                            
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>

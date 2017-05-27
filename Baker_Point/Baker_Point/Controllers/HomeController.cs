@@ -4,10 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Baker_Point.Models;
+using Baker_Point.Filters;
 using System.Xml;
 
 namespace Baker_Point.Controllers
 {
+    [InitializeSimpleMembership]
     public class HomeController : Controller
     {
 

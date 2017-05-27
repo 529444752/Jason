@@ -1,0 +1,92 @@
+﻿@model Baker_Point.Models.Blogs
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutBlog.cshtml";
+}
+
+
+<link rel="stylesheet" href="../../Content/css/magnific-popup.css">
+
+<div id="fh5co-wrapper">
+	<div id="fh5co-page">
+        <div id="fh5co-feature-product" class="fh5co-section-gray">
+			<div class="container">
+                <h2>New Blog</h2>
+@using (Html.BeginForm("Create", "Blog", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Blog</legend>
+        <div class="form-group">
+            <label>Blog Title</label>
+            <input type="text" class="form-control" name="BlogTitle" value="@Model.BlogTitle"/>
+            @Html.ValidationMessageFor(model => model.BlogTitle)
+        </div>
+        <div class="form-group">
+            <label>Context</label>
+            <textarea rows="30" class="form-control" name="Context">@Model.Context</textarea>
+            @Html.ValidationMessageFor(model => model.Context)
+        </div>
+
+
+        <input type="hidden" name="UserId" value="@WebSecurity.CurrentUserId"/>
+        <input type="hidden" name="PostTime" value="@DateTime.Now"/>
+        <div class="row">
+            <div class="col-md-8 col-md-push-2">
+            <div class="imageupload panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title pull-left">Upload Image</h3>
+                </div>
+                <div class="file-tab panel-body">
+                    <label class="btn btn-default btn-file">
+                        <span>Browse</span>
+                        <!-- The file is stored here. -->
+                        <input type="file" name="image-file">
+                    </label>
+                    <button type="button" class="btn btn-default">Remove</button>
+                </div>
+            </div>
+                </div>
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+</div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="~/Scripts/js/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/js/jquery.easing.1.3.js"></script>
+	<!-- Waypoints -->
+	<script src="~/Scripts/js/jquery.waypoints.min.js"></script>
+	<script src="../Scripts/js/sticky.js"></script>
+
+	<!-- Stellar -->
+	<script src="~/Scripts/js/jquery.stellar.min.js"></script>
+	<!-- Superfish -->
+	<script src="~/Scripts/js/hoverIntent.js"></script>
+	<script src="~/Scripts/js/superfish.js"></script>
+	<!-- Magnific Popup -->
+	<script src="~/Scripts/js/jquery.magnific-popup.min.js"></script>
+	<!--script src="~/Scripts/js/magnific-popup-options.js"></!--script-->
+	
+	<!-- Main JS -->
+	<!--script src="~/Scripts/js/main.js"></!--script-->
+    <script type="text/javascript" src="~/Scripts/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/bootstrap-imageupload.js"></script>
+        <script>
+            var $imageupload = $('.imageupload');
+            $imageupload.imageupload();
+        </script>
+

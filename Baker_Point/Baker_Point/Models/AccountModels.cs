@@ -18,6 +18,7 @@ namespace Baker_Point.Models
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<Product> Prodcut { get; set; }
         public DbSet<Category> Category { get; set; }
+        public DbSet<Blogs> Blogs { get; set; }
     }
 
     [Table("UserProfile")]
@@ -27,6 +28,9 @@ namespace Baker_Point.Models
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string UserName { get; set; }
+
+        public virtual ICollection<Blogs> Blogs { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 
     public class RegisterExternalLoginModel
@@ -95,5 +99,13 @@ namespace Baker_Point.Models
         public string Provider { get; set; }
         public string ProviderDisplayName { get; set; }
         public string ProviderUserId { get; set; }
+    }
+
+    public class UserAvatar
+    {
+        public int UserAvatarId { get; set; }
+        public int UserId { get; set; }
+        public virtual UserProfile User { get; set; }
+        public string imgSrc { get; set; }
     }
 }

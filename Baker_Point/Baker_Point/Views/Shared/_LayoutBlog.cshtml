@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+            <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <!-- Bootstrap styles -->
+    <link rel="stylesheet" href="~/Content/css/bootstrap.min.css">
+   
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" href="~/Content/css/font-awesome/css/font-awesome.min.css">
+
+    <!-- Google Webfonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|PT+Serif:400,400italic' rel='stylesheet' type='text/css'>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="~/Content/css/style.css" id="theme-styles">
+
+        	<link rel="stylesheet" href="~/Content/css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="~/Content/css/icomoon.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="~/Content/css/bootstrap.css">
+	<!-- Superfish -->
+	<link rel="stylesheet" href="~/Content/css/superfish.css">
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="~/Content/css/magnific-popup.css">
+	
+
+
+	<!-- Modernizr JS -->
+	<script src="../Scripts/js/modernizr-2.6.2.min.js"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+
+    
+        <title>@ViewBag.Title - Blog</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Scripts.Render("~/bundles/modernizr")
+    </head>
+    <body>
+        <header>
+        <div class="widewrapper masthead">
+            <div class="container">
+                <a href="../../BlogHome/Index" id="logo">
+                    <img src="~/Images/baker point2.png" alt="clean Blog">
+                </a>
+
+                <div id="mobile-nav-toggle" class="pull-right">
+                    <a href="#" data-toggle="collapse" data-target=".clean-nav .navbar-collapse">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </div>
+                 <section id="login" class="pull-right">
+                     @Html.Partial("_LoginPartialBlog")
+                </section>
+                <nav class="pull-right clean-nav">
+                    <div class="collapse navbar-collapse">
+
+                        <ul class="nav nav-pills navbar-nav">
+                          
+                            <li>
+                                @Html.ActionLink("Home", "Index", "BlogHome")
+                            </li>
+                            <li>
+                                @Html.ActionLink("About","About","Home")
+                            </li>
+                            <li>
+                                @Html.ActionLink("Contact","Contact","Home")
+                            </li>
+                            <li>
+                                @Html.ActionLink("Shop","Index","Home")
+                            </li>                        
+                        </ul>
+                    </div>
+                </nav>        
+
+            </div>
+        </div>
+
+        <div class="widewrapper subheader">
+            <div class="container">
+                <div class="clean-breadcrumb">
+                    @Html.ActionLink("Blog","Index","Blog")
+                </div>
+
+                <div class="clean-searchbox">
+                    <form action="#" method="get" accept-charset="utf-8">
+                        <input class="searchfield" id="searchbox" type="text" placeholder="Search">
+                        <button class="searchbutton" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+        <div id="body">
+            @RenderSection("featured", required: false)
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+            </section>
+        </div>
+        
+    <footer>
+        <div class="widewrapper footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 footer-widget">
+                        <h3> <i class="fa fa-user"></i>About</h3>
+
+                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi laboriosam nostrum consequatur fugiat at, labore praesentium modi, quasi dolorum debitis reiciendis facilis, dolor saepe sint nemo, earum molestias quas.</p>
+                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum, error aspernatur assumenda quae eveniet.</p>
+                    </div>
+
+                    <div class="col-md-4 footer-widget">
+                        <h3> <i class="fa fa-pencil"></i> Recent Post</h3>
+                        <ul class="clean-list">
+                            <li><a href="">Clean - Responsive HTML5 Template</a></li>
+                            <li><a href="">Responsive Pricing Table</a></li>
+                            <li><a href="">Yellow HTML5 Template</a></li>
+                            <li><a href="">Blackor Responsive Theme</a></li>
+                            <li><a href="">Portfolio Bootstrap Template</a></li>
+                            <li><a href="">Clean Slider Template</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-4 footer-widget">
+                        <h3> <i class="fa fa-envelope"></i>Contact Me</h3>
+
+                        <p>Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil fugiat, cupiditate veritatis excepturi tempore explicabo.</p>
+                         <div class="footer-widget-icon">
+                            <i class="fa fa-facebook"></i><i class="fa fa-twitter"></i><i class="fa fa-google"></i>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="widewrapper copyright">
+                Copyright &copy; @DateTime.Now.Year Baker Point.All rights reserved.
+        </div>
+    </footer>
+
+        @Scripts.Render("~/bundles/jquery")
+        @RenderSection("scripts", required: false)
+    </body>
+</html>

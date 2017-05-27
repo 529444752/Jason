@@ -754,16 +754,3 @@ tr.pager td {
             margin: 0;
         }
 }
-
-.rightBarItem {
-    text-align:center;
-    color:white;
-    cursor:pointer;
-    min-width:100px;
-    margin-bottom:5px;
-}
-
-    .rightBarItem:hover {
-        background-color:lightgray;
-        color:red;
-    }
