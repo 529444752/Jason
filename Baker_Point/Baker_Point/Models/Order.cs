@@ -42,5 +42,10 @@ namespace Baker_Point.Models
         public DbSet<Comment> Comments { get; set; }
         public DbSet<UserAvatar> Avatars { get; set; }
         public DbSet<FeaturedList> Featured { get; set; }
+        public DbSet<likedList> Liked { get; set; }
+
+        public DbSet<Attachment> Attach { get; set; }
+
+        public DbSet<Changelog> Changelogs { get; set; }
     }
 }

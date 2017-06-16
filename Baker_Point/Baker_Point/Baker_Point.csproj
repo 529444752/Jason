@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,6 +40,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AntiXssLibrary, Version=4.3.0.0, Culture=neutral, PublicKeyToken=d127efab8a9c114f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AntiXSS.4.3.0\lib\net40\AntiXssLibrary.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="HtmlSanitizationLibrary, Version=4.3.0.0, Culture=neutral, PublicKeyToken=d127efab8a9c114f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AntiXSS.4.3.0\lib\net40\HtmlSanitizationLibrary.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -165,6 +174,7 @@
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\BlogHomeController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\ChangelogController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -188,10 +198,23 @@
     <Compile Include="Migrations\201705270953295_new23.Designer.cs">
       <DependentUpon>201705270953295_new23.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706021005476_ji.cs" />
+    <Compile Include="Migrations\201706021005476_ji.Designer.cs">
+      <DependentUpon>201706021005476_ji.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706030218497_as.cs" />
+    <Compile Include="Migrations\201706030218497_as.Designer.cs">
+      <DependentUpon>201706030218497_as.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706030343385_sd.cs" />
+    <Compile Include="Migrations\201706030343385_sd.Designer.cs">
+      <DependentUpon>201706030343385_sd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Blog.cs" />
     <Compile Include="Models\CartModel.cs" />
+    <Compile Include="Models\Changelog.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderModel.cs" />
@@ -212,6 +235,7 @@
     <Content Include="Content\css\style.css" />
     <Content Include="Content\css\style1.css" />
     <Content Include="Content\css\superfish.css" />
+    <Content Include="Content\demo.css" />
     <Content Include="Content\Element.css" />
     <Content Include="Content\font-awesome\css\font-awesome.css" />
     <Content Include="Content\font-awesome\css\font-awesome.min.css" />
@@ -351,6 +375,8 @@
     <Content Include="Images\search.png" />
     <Content Include="Images\SearchBar1.png" />
     <Content Include="Images\SearchBar2.png" />
+    <Content Include="Images\yizan.png" />
+    <Content Include="Images\zan.png" />
     <Content Include="Scripts\Home\Index.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -460,10 +486,12 @@
     <Content Include="Views\Shared\_LayoutBlog.cshtml" />
     <Content Include="Views\Shared\_LoginPartialBlog.cshtml" />
     <Content Include="Views\Account\UserCenter.cshtml" />
+    <Content Include="Views\Changelog\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Avatar\" />
+    <Folder Include="Files\" />
     <Folder Include="Images\Title\" />
   </ItemGroup>
   <ItemGroup>
@@ -481,6 +509,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705270953295_new23.resx">
       <DependentUpon>201705270953295_new23.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706021005476_ji.resx">
+      <DependentUpon>201706021005476_ji.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706030218497_as.resx">
+      <DependentUpon>201706030218497_as.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706030343385_sd.resx">
+      <DependentUpon>201706030343385_sd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

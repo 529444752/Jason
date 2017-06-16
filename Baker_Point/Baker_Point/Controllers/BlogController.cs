@@ -17,8 +17,117 @@ namespace Baker_Point.Controllers
     {
         BPDbContext db = new BPDbContext();
 
-        //
-        // GET: /Blog/
+        [HttpPost]
+        public ActionResult Index(string keyword)
+        {
+            var list = db.Blogs.Where(m => m.BlogTitle.Contains(keyword)).ToList();
+            return View(list);
+        }
+        public void AddChangelog(string Type,int userid,int blogid)
+        {
+            Changelog log = new Changelog { Time = DateTime.Now, Type = Type, UserId = userid, BlogsId = blogid };
+            db.Changelogs.Add(log);
+            db.SaveChanges();
+        }
+
+        [HttpPost]
+        public ActionResult DeleteAttachment(int blogid, int attachmentid)
+        {
+            var attach=db.Attach.Find(attachmentid);
+            FileInfo fi = new FileInfo(Server.MapPath(attach.Src));
+            fi.Delete();
+            db.Attach.Remove(attach);
+            db.SaveChanges();
+            AddChangelog("DeleteAttachment", WebSecurity.CurrentUserId, blogid);
+            return RedirectToAction("Details", new { id = blogid });
+        }
+
+        [HttpPost]
+        public ActionResult UploadAttachment(int blogid,int attachmentid=0)
+        {
+            string[] img = {".jpg",".png",".gif" };
+            string[] video = { ".mp4" };
+            string[] audio = { ".mp3", ".wav", ".ogg" };
+            if (attachmentid != 0)
+            {
+                var attach = db.Attach.Find(attachmentid);
+                FileInfo fi = new FileInfo(Server.MapPath(attach.Src));
+                fi.Delete();
+                HttpPostedFileBase NewPic = Request.Files["upload-file"];
+                string extend = NewPic.FileName.Substring(NewPic.FileName.LastIndexOf(".")).ToLower();
+                string Path = "/Files/" + Guid.NewGuid() + extend;
+                if (img.Contains(extend))
+                {
+                    attach.TYPE = "img";
+                }
+                else if (video.Contains(extend))
+                {
+                    attach.TYPE = "video";
+                }
+                else if (audio.Contains(extend))
+                {
+                    attach.TYPE = "audio";
+                }
+                NewPic.SaveAs(Server.MapPath(Path));
+                attach.Src = Path;
+                db.Entry(attach);
+                db.SaveChanges();
+                AddChangelog("EditAttachment", WebSecurity.CurrentUserId, blogid);
+            }
+            else
+            {
+                Attachment attach = new Attachment();
+                attach.BlogsId = blogid;
+                HttpPostedFileBase NewPic = Request.Files["upload-file"];
+                string extend = NewPic.FileName.Substring(NewPic.FileName.LastIndexOf(".")).ToLower();
+                string Path = "/Files/" + Guid.NewGuid() + extend;
+                if (img.Contains(extend))
+                {
+                    attach.TYPE = "img";
+                }
+                else if (video.Contains(extend))
+                {
+                    attach.TYPE = "video";
+                }
+                else if (audio.Contains(extend))
+                {
+                    attach.TYPE = "audio";
+                }
+                NewPic.SaveAs(Server.MapPath(Path));
+                attach.Src = Path;
+                db.Attach.Add(attach);
+                db.SaveChanges();
+                AddChangelog("AddAttachment", WebSecurity.CurrentUserId, blogid);
+            }
+            return RedirectToAction("Details", new { id = blogid });
+        }
+        
+        [HttpPost]
+        public ActionResult like(int userid,int blogsid)
+        {
+            likedList like = new likedList { BlogsId = blogsid, UserId = userid };
+            var blog = db.Blogs.Find(blogsid);
+            blog.likedNumber++;
+            db.Entry(blog);
+            db.Liked.Add(like);
+            db.SaveChanges();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult dislike(int userid, int blogsid)
+        {
+            var like=db.Liked.Where(m => m.BlogsId == blogsid && m.UserId == userid).ToList();
+            if (like.Count != 0)
+            {
+                var blog = db.Blogs.Find(blogsid);
+                blog.likedNumber--;
+                db.Entry(blog);
+                db.Liked.Remove(like[0]);
+                db.SaveChanges();
+            }
+            return View();
+        }
 
         public ActionResult Index()
         {
@@ -35,6 +144,7 @@ namespace Baker_Point.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Attachment = db.Attach.Where(m => m.BlogsId == id);
             ViewBag.Comments = db.Comments.Where(m => m.BlogsId == id).ToList();
             return View(blog);
         }
@@ -72,6 +182,7 @@ namespace Baker_Point.Controllers
                 }
                 db.Blogs.Add(blog);
                 db.SaveChanges();
+                AddChangelog("CreateBlog", WebSecurity.CurrentUserId,blog.BlogsId);
                 return RedirectToAction("Index");
             }
 
@@ -113,6 +224,7 @@ namespace Baker_Point.Controllers
                 }
                 db.Entry(blog).State = EntityState.Modified;
                 db.SaveChanges();
+                AddChangelog("EditBlog", WebSecurity.CurrentUserId, blog.BlogsId);
                 return RedirectToAction("Index");
             }
             return View(blog);
@@ -148,8 +260,21 @@ namespace Baker_Point.Controllers
             {
                 db.Comments.Remove(item);
             }
+            var liked = db.Liked.Where(l => l.BlogsId == id);
+            foreach (var item in liked)
+            {
+                db.Liked.Remove(item);
+            }
+            var attaches = db.Attach.Where(a => a.BlogsId == id);
+            foreach (var item in attaches)
+            {
+                FileInfo fi = new FileInfo(Server.MapPath(item.Src));
+                fi.Delete();
+                db.Attach.Remove(item);
+            }
             db.Blogs.Remove(blog);
             db.SaveChanges();
+            AddChangelog("DeleteBlog", WebSecurity.CurrentUserId, id);
             return RedirectToAction("Index");
         }
 
@@ -162,6 +287,7 @@ namespace Baker_Point.Controllers
             db.Entry(blog);
             db.Comments.Add(comment);
             db.SaveChanges();
+            AddChangelog("CreateComment", WebSecurity.CurrentUserId, comment.BlogsId);
             return RedirectToAction("Details", new { id = comment.BlogsId });
         }
 
@@ -200,6 +326,7 @@ namespace Baker_Point.Controllers
             db.Entry(blog).State = EntityState.Modified;
             db.Comments.Remove(comment);
             db.SaveChanges();
+            AddChangelog("DeleteComment", WebSecurity.CurrentUserId, blogid);
             return RedirectToAction("Details", new { id = blogid });
         }
 

@@ -127,7 +127,7 @@ namespace Baker_Point.Controllers
             ReWriteXml(products.Take(4).ToList());
             return View(recommendList);
         }
-
+        [OutputCache(Duration = 100)]
         public ActionResult About()
         {
             Response.Write("<script type='text/javascript'>window.onload=function(){var c = document.getElementById('cartnum');var num = " + MvcApplication.CartItemNUM + "+'';var cxt = c.getContext('2d');cxt.fillStyle = '#ff0000';cxt.beginPath();cxt.arc(10, 10, 10, 0, Math.PI * 2, true);cxt.closePath();cxt.fill();cxt.font = '10px Arial';cxt.textAlign = 'center';cxt.textBaseline = 'middle';cxt.fillStyle = 'white';cxt.fillText(num, 10, 10, 15);}</script>");
@@ -136,7 +136,7 @@ namespace Baker_Point.Controllers
 
             return View();
         }
-
+        [OutputCache(Duration = 100)]
         public ActionResult Contact()
         {
             Response.Write("<script type='text/javascript'>window.onload=function(){var c = document.getElementById('cartnum');var num = " + MvcApplication.CartItemNUM + "+'';var cxt = c.getContext('2d');cxt.fillStyle = '#ff0000';cxt.beginPath();cxt.arc(10, 10, 10, 0, Math.PI * 2, true);cxt.closePath();cxt.fill();cxt.font = '10px Arial';cxt.textAlign = 'center';cxt.textBaseline = 'middle';cxt.fillStyle = 'white';cxt.fillText(num, 10, 10, 15);}</script>");

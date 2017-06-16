@@ -32,7 +32,7 @@ namespace Baker_Point.Controllers
                 UserAvatar newavatar = new UserAvatar { UserId = id, imgSrc = "/Images/Account.png" };
                 db.Avatars.Add(newavatar);
                 db.SaveChanges();
-                useravatar = newavatar;
+                useravatar = db.Avatars.Where(m => m.UserAvatarId == newavatar.UserAvatarId).Include(m => m.User).ToList()[0];
             }
             else
             {
@@ -50,6 +50,7 @@ namespace Baker_Point.Controllers
         // GET: /Account/Login
 
         [AllowAnonymous]
+       
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;

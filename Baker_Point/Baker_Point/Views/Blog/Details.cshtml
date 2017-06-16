@@ -1,12 +1,21 @@
 ﻿@model Baker_Point.Models.Blogs
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.BlogTitle;
     Layout = "~/Views/Shared/_LayoutBlog.cshtml";
     Baker_Point.Models.BPDbContext db = new Baker_Point.Models.BPDbContext();
+    var liked = db.Liked.Where(m => m.UserId == WebSecurity.CurrentUserId && m.BlogsId == Model.BlogsId);
+    if (liked.Count() == 0)
+    {
+        ViewBag.IsLiked = false;
+    }
+    else
+    {
+        ViewBag.IsLiked = true;
+    }
     ViewBag.FeaturedBlogs = db.Featured.ToList();
 }
-
+<link href="~/Content/demo.css" type="text/css" rel="stylesheet"/>
     <div class="widewrapper main">
         <div class="container">
             <div class="row">
@@ -15,7 +24,8 @@
                         <header>
                            
                             <div class="lead-image">
-                                @if(Model.titleImg!=""){
+                                @if (Model.titleImg != "")
+                                {
                                 <img src="../../@Model.titleImg" alt="" class="img-responsive">
                                 }
                             </div>
@@ -26,15 +36,97 @@
                                 <i class="fa fa-user"></i> <a href="../../Account/UserCenter/@Model.UserId">@Model.User.UserName</a> <i class="fa fa-calendar"></i>@Model.PostTime<i class="fa fa-comments"></i><span class="data"><a href="#comments">@Model.Comments Comments</a></span>
                             </div>
                             <p>@Model.Context</p>
+                                <div class="row">
+                                    @foreach (Baker_Point.Models.Attachment item in ViewBag.Attachment)
+                                    {
+                                        <div class="col-md-4 col-lg-4 col-xs-6">
+                                        @if (item.TYPE == "img")
+                                        {
+                                            <div class="container"><div class="upload-Box"><img width="200" height="150" src="../../@item.Src"/><div class="row">@if(WebSecurity.CurrentUserId==Model.UserId) { using (Html.BeginForm("UploadAttachment", "Blog", FormMethod.Post, new { @class = "upload", enctype = "multipart/form-data", style="display:inline" }))
+                                                {
+                                                <input type="file" width="200" hidden="hidden" id="uploadfile" name="upload-file" style="width:150px;display:inline;visibility:collapse"/>
+                                                <span class="glyphicon glyphicon-open" style="cursor:pointer"></span>
+                                                <input type="hidden" value="@Model.BlogsId" name="blogid" />
+                                                <input type="hidden" value="@item.AttachmentId" name="attachmentid" />
+                                            }using (Html.BeginForm("DeleteAttachment", "Blog", FormMethod.Post, new { @class="delete",  style = "display:inline" }))
+                                            {
+                                                <span class="glyphicon glyphicon-trash" style="cursor:pointer;display:inline;"></span>
+                                                <input type="hidden" value="@Model.BlogsId" name="blogid" />
+                                                <input type="hidden" value="@item.AttachmentId" name="attachmentid" />
+                                            }}
+                                                </div></div></div>
+                                        }
+                                        else if (item.TYPE == "video")
+                                        {
+                                            <div class="container"><div class="upload-Box"><video width="200" height="150" controls="controls"><source  src="../../@item.Src" type="video/mp4"/></video><div class="row">@if (WebSecurity.CurrentUserId == Model.UserId)
+                                            {
+                                                using (Html.BeginForm("UploadAttachment", "Blog", FormMethod.Post, new { @class = "upload", enctype = "multipart/form-data", style = "display:inline" }))
+                                                {
+                                                <input type="file" width="200" hidden="hidden" id="uploadfile" name="upload-file" style="width:150px;display:inline;visibility:collapse"/>
+                                                <span class="glyphicon glyphicon-open" style="cursor:pointer"></span>
+                                                <input type="hidden" value="@Model.BlogsId" name="blogid" />
+                                                <input type="hidden" value="@item.AttachmentId" name="attachmentid" />
+                                                }
+                                                using (Html.BeginForm("DeleteAttachment", "Blog", FormMethod.Post, new { @class = "delete", style = "display:inline" }))
+                                                {
+                                                <span class="glyphicon glyphicon-trash" style="cursor:pointer;display:inline;"></span>
+                                                <input type="hidden" value="@Model.BlogsId" name="blogid" />
+                                                <input type="hidden" value="@item.AttachmentId" name="attachmentid" />
+                                                }
+                                            }
+                                            </div>
+                                            </div></div>
+                                        }
+                                        else if (item.TYPE == "audio")
+                                        {
+                                            <div class="container"><div class="upload-Box"><audio controls="controls" style="width:200px;" ><source src="../../@item.Src"/></audio><div class="row">@if (WebSecurity.CurrentUserId == Model.UserId)
+                                            {
+                                                using (Html.BeginForm("UploadAttachment", "Blog", FormMethod.Post, new { @class = "upload", enctype = "multipart/form-data", style = "display:inline" }))
+                                                {
+                                                <input type="file" width="200" hidden="hidden" id="uploadfile" name="upload-file" style="width:150px;display:inline;visibility:collapse"/>
+                                                <span class="glyphicon glyphicon-open" style="cursor:pointer"></span>
+                                                <input type="hidden" value="@Model.BlogsId" name="blogid" />
+                                                <input type="hidden" value="@item.AttachmentId" name="attachmentid" />
+                                                }using (Html.BeginForm("DeleteAttachment", "Blog", FormMethod.Post, new { @class = "delete", style = "display:inline" }))
+                                                {
+                                                <span class="glyphicon glyphicon-trash" style="cursor:pointer;display:inline"></span>
+                                                <input type="hidden" value="@Model.BlogsId" name="blogid" />
+                                                <input type="hidden" value="@item.AttachmentId" name="attachmentid" />
+                                                }}
+                                            </div>
+                                            </div></div>
+                                        }
+                                        </div>
+                                    }
+                                    @if (WebSecurity.CurrentUserId == Model.UserId)
+                                    {
+                                    <div class="col-md-4 col-lg-4 col-sm-4"><div class="upload-Box" style="width:200px;height:150px;">@using (Html.BeginForm("UploadAttachment", "Blog", FormMethod.Post, new { @class = "upload", enctype = "multipart/form-data" }))
+                                    {
+                                        <input type="file" hidden="hidden" id="uploadfile" name="upload-file" style="width:150px;text-align:center;vertical-align:central;display:inline;visibility:collapse"/>
+                                        <span class="glyphicon glyphicon-open" style="cursor:pointer;"></span>
+                                        <input type="hidden" width="200" value="@Model.BlogsId" name="blogid" />
+                                    }</div></div>
+                                    }
 
+                                </div>
                         </div>
-                        @if(Request.IsAuthenticated)
+                        @if (Request.IsAuthenticated)
                         {
-                            if(WebSecurity.CurrentUserId==Model.UserId||User.IsInRole("Admin"))
+                            if (WebSecurity.CurrentUserId == Model.UserId || User.IsInRole("Admin"))
                             {
                             <a href="../../Blog/Edit/@Model.BlogsId"><i class="fa">Edit</i></a>
                             <a href="../../Blog/Delete/@Model.BlogsId"><i class="fa">Delete</i></a>
-                        }
+                            }
+                            <div class="praise pull-right">
+                                <span id="praise">@if (ViewBag.IsLiked)
+                                {<img src="../../Images/yizan.png" id="praise-img" />}
+                                else
+                                {
+                                    <img src="../../Images/zan.png" id="praise-img" />
+                                }</span>
+                                <span id="praise-txt">@Model.likedNumber</span>
+                                <span id="add-num"><em>+1</em></span>
+                            </div>
                             if (User.IsInRole("Admin"))
                             {
                                 if (Model.IsFeatured)
@@ -43,14 +135,14 @@
                                 }
                                 else
                                 {
-                                    using (Html.BeginForm("FeatureBlog", "Blog", FormMethod.Post, new { @id="FeatureForm"}))
+                                    using (Html.BeginForm("FeatureBlog", "Blog", FormMethod.Post, new { @id = "FeatureForm" }))
                                     {
                                         <input type="hidden" name="id" value="@Model.BlogsId"/>
                                     }
                                     <a href="#" id="feature" class="pull-right"><span class="glyphicon glyphicon-star-empty">Feature this article.</span></a> 
+                                    }
                                 }
                             }
-                        }
                     </article>
 
                     <aside class="social-icons clearfix">
@@ -210,6 +302,22 @@
     </div>
 <script type="text/javascript" src="~/Scripts/js/jquery-1.12.4.min.js"></script>
 <script>
+    $(".upload-Box").each(function(){
+        var form=$(this).find(".upload");
+        var input=form.find("input[type=file]");
+        var span=form.find("span");
+        span.click(function(){input.click()});
+    })
+    $(".upload-Box").each(function(){
+        var form=$(this).find(".upload");
+        var input=form.find("input[type=file]");
+        input.change(function(){form.submit()});
+    })
+    $(".upload-Box").each(function(){
+        var form=$(this).find(".delete");
+        var input=form.find("span");
+        input.click(function(){form.submit()});
+    })
     $("#feature").click(function () {
         $("#FeatureForm").submit();
     })
@@ -219,4 +327,52 @@
             form.submit();
         })
     })
+</script>
+<script>
+	$(function(){
+		$("#praise").click(function(){
+			var praise_img = $("#praise-img");
+			var text_box = $("#add-num");
+			var praise_txt = $("#praise-txt");
+			var num=parseInt(praise_txt.text());
+			if(praise_img.attr("src") == ("../../Images/yizan.png")){
+				$(this).html("<img src='../../Images/zan.png' id='praise-img' class='animation' />");
+				praise_txt.removeClass("hover");
+				text_box.show().html("<em class='add-animation'>-1</em>");
+				$(".add-animation").removeClass("hover");
+				num -=1;
+				praise_txt.text(num);
+				$.ajax({
+				    type: "post",
+				    url: "../../Blog/dislike",
+				    data: {
+				        userid:@WebSecurity.CurrentUserId,
+                        blogsid:@Model.BlogsId,
+                        },
+				    success:function(){
+                        alert("success")
+				    }
+				})
+
+			}else{
+				$(this).html("<img src='../../Images/yizan.png' id='praise-img' class='animation' />");
+				praise_txt.addClass("hover");
+				text_box.show().html("<em class='add-animation'>+1</em>");
+				$(".add-animation").addClass("hover");
+				num +=1;
+				praise_txt.text(num);
+				$.ajax({
+				    type: "post",
+				    url: "../../Blog/like",
+				    data: {
+				        userid:@WebSecurity.CurrentUserId,
+				        blogsid:@Model.BlogsId,
+				    },
+				    success:function(){
+				        alert("success")
+				    }
+				})
+			}
+		});
+	})
 </script>

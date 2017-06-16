@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Baker_Point.Models.Blogs>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Blog List";
     Layout = "~/Views/Shared/_LayoutBlog.cshtml";
     Baker_Point.Models.BPDbContext db = new Baker_Point.Models.BPDbContext();
     ViewBag.FeaturedBlogs = db.Featured.ToList();

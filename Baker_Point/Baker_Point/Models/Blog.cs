@@ -25,6 +25,8 @@ namespace Baker_Point.Models
         public bool IsFeatured { get; set; }
 
         public virtual ICollection<FeaturedList> featured { get; set; }
+        public virtual ICollection<likedList> liked { get; set; }
+        public int likedNumber { get; set; }
     }
 
     public class FeaturedList
@@ -32,5 +34,22 @@ namespace Baker_Point.Models
         public int FeaturedListId { get; set; }
         public int BlogsId { get; set; }
         public virtual Blogs blog { get; set; }
+    }
+
+    public class likedList
+    {
+        public int likedListId { get; set; }
+        public int UserId { get; set; }
+        public int BlogsId { get; set; }
+        public virtual Blogs blog { get; set; }
+    }
+
+    public class Attachment
+    {
+        public int AttachmentId { get; set; }
+        public int BlogsId { get; set; }
+
+        public string TYPE { get; set; }
+        public string Src { get; set; }
     }
 }

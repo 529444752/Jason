@@ -75,7 +75,11 @@
                             </li>
                             <li>
                                 @Html.ActionLink("Shop","Index","Home")
-                            </li>                        
+                            </li>       
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li>@Html.ActionLink("Changelog","Index","Changelog")</li>
+                            }
                         </ul>
                     </div>
                 </nav>        
@@ -90,8 +94,8 @@
                 </div>
 
                 <div class="clean-searchbox">
-                    <form action="#" method="get" accept-charset="utf-8">
-                        <input class="searchfield" id="searchbox" type="text" placeholder="Search">
+                    <form action="../../Blog/Index" method="post" accept-charset="utf-8">
+                        <input class="searchfield" id="searchbox" type="text" placeholder="Search" name="keyword">
                         <button class="searchbutton" type="submit">
                             <i class="fa fa-search"></i>
                         </button>
